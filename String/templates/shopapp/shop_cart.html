@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h1>&nbsp;&nbsp;&nbsp;&nbsp;Cart</h1>
+
+<section class="h-100 h-custom" style="background-color: #dee7fa;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card" style="border-style:solid; border-color:#a9b3c9; padding:10px; border-radius:5px;">
+          <div class="card-body p-4">
+
+            <div class="row">
+
+              <div class="col-lg-7">
+                <h5 class="mb-3"><a href="#!" class="text-body"><i
+                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                    <p class="mb-0">You have {{total_product_count}} items in your cart</p>
+                  </div>
+                  <div>
+                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"
+                        class="text-body">time added <i class="fas fa-angle-down mt-1"></i></a></p>
+                  </div>
+                </div>
+
+                {% for item in cart_items %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div>
+                          <img
+                            src="{{item.product.product_poster.url}}"
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                        </div>
+                        <div class="ms-3">
+                          <h5>{{item.product.product_name}}</h5>
+                          <p class="small mb-0">{{item.product.product_subject}}</p>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+<!--                        <div style="width: 50px;">-->
+<!--                          <h5 class="fw-normal mb-0">2</h5>-->
+<!--                        </div>-->
+                        <div style="width: 80px;">
+                          <h5 class="mb-0">$ {{item.product.product_price}}</h5>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <form name="delete_from_cart_form" method="post" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+              <!--              <input name="p_id" type="number" value="{{product.id}}" readonly hidden>-->
+                            <input type="number" id="cart_id" name="cart_id" value="{{item.id}}" hidden readonly>
+                            <input name="delete_from_cart_button" class="btn btn-danger" type="submit" value="Delete">
+                        </form>
+                        <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                <br>
+                <hr>
+                {% if cart_items|length > 0 %}
+                <h3>Total Bill Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;$ {{ bill_amount }}</h3>
+                {% endif %}
+
+              </div>
+              <div class="col-lg-5">
+
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body">
+                    {% if cart_items|length > 0 %}
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">total</p>
+                      <p class="mb-2">$ {{ total_price|floatformat:2 }}</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Shipping</p>
+                      <p class="mb-2">$ {{ shipping_charge|floatformat:2 }}</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Bill Amount(Incl. taxes)</p>
+                      <p class="mb-2">$ {{ bill_amount }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Card details</h5>
+                      <img src="{{request.user.profile.profile_pic.url}}"
+                        class="img-fluid rounded-3" style="width:50px; height:50px;" alt="Avatar">
+                    </div>
+
+<!--&lt;!&ndash;                    <p class="small mb-2">Card type</p>&ndash;&gt;-->
+<!--                    <a href="#!" type="submit" class="text-white"><i-->
+<!--                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>-->
+<!--                    <a href="#!" type="submit" class="text-white"><i-->
+<!--                        class="fab fa-cc-visa fa-2x me-2"></i></a>-->
+<!--                    <a href="#!" type="submit" class="text-white"><i-->
+<!--                        class="fab fa-cc-amex fa-2x me-2"></i></a>-->
+<!--                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>-->
+
+
+                    <hr class="my-4">
+
+                    <form class="mt-4" name="proceed_to_checkout" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="form-outline form-white mb-4">
+                        <input name="card_holder_name" type="text" id="card_holder_name" class="form-control form-control-lg" size="17"
+                          placeholder="Cardholder's Name" value="{{card_details.card_holder_name}}" required/>
+                        <label class="form-label" for="card_holder_name">Cardholder's Name</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input name="expiration_month" type="text" id="expiration_month" class="form-control form-control-lg" size="17"
+                          placeholder="12" minlength="2" maxlength="2" value="{{card_details.expiration_month}}" required/>
+                        <label class="form-label" for="expiration_month">Expiration Month</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input name="expiration_year" type="text" id="expiration_year" class="form-control form-control-lg" size="17"
+                          placeholder="2010" minlength="4" maxlength="4" value="{{card_details.expiration_year}}" required/>
+                        <label class="form-label" for="expiration_year">Expiration Year</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input name="card_number" type="text" id="card_number" class="form-control form-control-lg" size="17"
+                          placeholder="1234567890123457" minlength="16" maxlength="16" value="{{card_details.card_number}}" required/>
+                        <label class="form-label" for="card_number">Card Number</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input name="cvv" type="text" id="cvv" class="form-control form-control-lg" size="17"
+                          placeholder="123" minlength="3" maxlength="3" value="{{card_details.cvv}}" required/>
+                        <label class="form-label" for="cvv">CVV</label>
+                      </div>
+                      {% if cart_items|length > 0 %}
+                      <input name="proceed_to_checkout_button" class="btn btn-warning btn-lg" type="submit" value="$ {{ bill_amount }} Pay">
+                      {% endif %}
+                    </form>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

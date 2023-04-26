@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+                    <div class="d-flex flex-start" style="margin:30px">
+                      <img class="rounded-circle shadow-1-strong me-3"
+                        src="{{comment.user.profile.profile_pic.url}}" alt="avatar" width="60"
+                        height="60" />
+                      <div>
+                        <h4 class="fw-bold mb-1">{{comment.user}}</h4>
+                        <div class="d-flex align-items-center mb-3">
+                          <p class="mb-0" style="font-size:15px;">
+                            {{comment.created_at}}
+    <!--                        <span class="badge bg-primary">Pending</span>-->
+                          </p>
+                          <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                        </div>
+                        <h1 class="mb-0">"{{comment.comment}}"</h1><br>
+
+
+
+                      </div>
+                    </div>
+                    <hr>
+
+<div style="margin-left:100px;">
+{% for reply in replies %}
+                    <div class="d-flex flex-start">
+                      <img class="rounded-circle shadow-1-strong me-3"
+                        src="{{reply.user.profile.profile_pic.url}}" alt="avatar" width="35"
+                        height="35" />
+                      <div>
+                        <h6 class="fw-bold mb-1">{{reply.user}}</h6>
+                        <div class="d-flex align-items-center mb-3">
+                          <p class="mb-0" style="font-size:10px;">
+                            {{reply.created_at}}
+    <!--                        <span class="badge bg-primary">Pending</span>-->
+                          </p>
+                          <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                        </div>
+                        <p class="mb-0">{{reply.reply}}</p><br>
+
+                      </div>
+                    </div>
+                    <hr>
+{% endfor %}
+{% if user.is_authenticated %}
+<div style="margin:20px;">
+<form name="reply_form" method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <textarea id="reply" name="reply" rows="5" cols="75" placeholder="Add to Discussion"></textarea><br>
+    <input name="reply_button" class="btn-sm btn-dark" type="submit" value="Add to Discussion">
+</form><br><br>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href="{% url 'user_list' %}">List</a><br>
+{% for key, value in courses_sort.items %}
+<hr>
+<h5>{{ key }}</h5>
+<hr>
+<div class="row">
+    {% for v in value %}
+    <div class="card" style="width: 18rem;margin: 20px 20px;">
+      <h1></h1>
+      <h6 class="card-text"><small><i>Course Created by {{v.creator.username}}</i></small></h6>
+      <img class="card-img-top" src="{{ v.course_poster.url }}" alt="Card image cap" width="200" height="150">
+      <div class="card-body">
+        <h5 class="card-title">{{v.course_name}}</h5>
+        <a href="{% url 'course_details' v.id %}" class="btn btn-light">Course Details</a>
+      </div>
+    </div>
+    {% endfor %}<br>
+</div>
+{% endfor %}
+
+
+
+<!--{% for key, value in courses_sort.items %}-->
+<!--    <h3>{{ key }}</h3><br>-->
+<!--    {% for v in value %}-->
+<!--        {{v.course_name}},-->
+<!--    {% endfor %}<br>-->
+<!--{% endfor %}-->
+
+{% endblock %}

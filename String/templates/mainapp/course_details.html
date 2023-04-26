@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #a9b3c9; height:200px;">
+            {% if user.is_authenticated and not user_liked_course and user in users_in_course %}
+                    <form name="like_form" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input name="like_submit_button" class="btn-sm btn-success" type="submit" value="Like">
+                    </form><br>
+            {% elif user.is_authenticated and user in users_in_course %}
+                    <form name="unlike_form" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input name="unlike_submit_button" class="btn-sm btn-danger" type="submit" value="Dislike">
+                    </form><br>
+            {% endif %}
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+              {% if user.profile.user_type == 'creator' %}
+              <button type="button" class="btn btn-light" data-mdb-ripple-color="dark"
+                style="z-index: 1;margin: 5px;">
+                <a href="{% url 'add_instructors' course.id %}">Add Instructors</a>
+              </button>
+              <button type="button" class="btn btn-light" data-mdb-ripple-color="dark"
+                style="z-index: 1;margin: 5px;">
+                <a href="{% url 'update_course' course.id %}">Update Course</a>
+              </button>
+              {% endif %}
+              {% if user.profile.user_type == 'student' and user not in users_in_course %}
+              {% if course_instructors|length > 0 %}
+              <button type="button" class="btn btn-light" data-mdb-ripple-color="dark" style="z-index: 1;margin: 5px;">
+                <a href="{% url 'join_course' course.id %}">Join Course</a>
+              </button>
+              {% else %}
+              <h6>Currently No Instructors for this Course</h6>
+              {% endif %}
+              {% endif %}
+              {% if user in users_in_course %}
+              <button type="button" class="btn btn-light" data-mdb-ripple-color="dark" style="z-index: 1;margin: 5px;">
+                <a href="{% url 'course_room' enrollment.course_room_id %}">Course Room</a>
+              </button>
+              {% endif %}
+              <img src="{{ course.course_poster.url }}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+            </div>
+            <div class="ms-3" style="margin-top: 130px;">
+              <h5>{{course.course_name}}</h5>
+              <p>{{course.course_type}}</p>
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #d4d5d9;">
+            <div class="d-flex justify-content-end text-center py-1">
+              <div>
+                <p class="mb-1 h5">{{total_enrollments}}</p>
+                <p class="small text-muted mb-0">Enrolled</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">{{ course_rooms|length }}</p>
+                <p class="small text-muted mb-0">Course Rooms</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">478</p>
+                <p class="small text-muted mb-0">Placed</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1">About</p>
+              <div class="p-4" style="background-color: #dee7fa;">
+                <p class="font-italic mb-1">{{course.course_details}}</p>
+                <p class="font-italic mb-1">Lives in New York</p>
+                <p class="font-italic mb-0">Photographer</p>
+              </div>
+
+              <p class="lead fw-normal mb-1">Course Creator</p>
+              <div class="p-4" style="background-color: #dee7fa;">
+                <img src="{{ course.creator.profile.profile_pic.url }}" alt="{{ course.creator.username }}_pic" class="img-thumbnail" style="width:50px;height:50px;border-radius:15px;"><a href="{% url 'profile' course.creator.username %}" style="text-transform: capitalize;text-decoration: none;">&emsp;&emsp;&emsp;&emsp;{{course.creator.username}}&emsp;&emsp;&emsp;&emsp;</a>
+              </div>
+
+              <p class="lead fw-normal mb-1">Course Instructors</p>
+              <div class="p-4" style="background-color: #dee7fa;">
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Course Room</th>
+                      <th scope="col">Instructor</th>
+                      <th scope="col">Students</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                {% for course_room in course_rooms %}
+<!--                <h5 class="font-italic mb-1"><a href="{% url 'profile' course_room.instructor.user.username %}">{{course_room.instructor.user.username}}</a></h5>-->
+                    <tr>
+                      <th scope="row">{{course_room.number}}</th>
+                      <td><img src="{{ course_room.instructor.user.profile.profile_pic.url }}" alt="{{ course_room.instructor.user.username }}_pic" class="img-thumbnail" style="width:35px;height:35px;border-radius:15px;"><a href="{% url 'profile' course_room.instructor.user.username %}" style="text-transform: capitalize;text-decoration: none;">&emsp;&emsp;&emsp;&emsp;{{course_room.instructor.user.username}}&emsp;&emsp;&emsp;&emsp;</a></td>
+                      <td>{{course_room.enrolled}}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0">Recent photos</p>
+              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-2">
+                <img src="{{ course.course_poster.url }}"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col mb-2">
+                <img src="{{ course.course_poster.url }}"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col">
+                <img src="{{ course.course_poster.url }}"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+              <div class="col">
+                <img src="{{ course.course_poster.url }}"
+                  alt="image 1" class="w-100 rounded-3">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

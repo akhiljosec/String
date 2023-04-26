@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form name="shop_sell_form" method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <br>
+      <label>Select Product Subject</label><br>
+      <select name="product_subject" class="form-select" aria-label="Default select example">
+          <option value="" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">not selected</h3></option>
+          {% for subject in subjects %}
+          <option value="{{subject}}" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">{{subject}}</h3></option>
+          {% endfor %}
+      </select><br>
+      <label>Select Product Type</label><br>
+      <select name="product_type" class="form-select" aria-label="Default select example">
+          <option value="" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">not selected</h3></option>
+          {% for product_type in product_types %}
+          <option value="{{product_type}}" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">{{product_type}}</h3></option>
+          {% endfor %}
+      </select><br>
+      <label>Enter Product Name</label><br>
+      <input type="text" name="product_name"><br><br>
+      <label>Enter Product Details</label><br>
+      <textarea id="product_details" name="product_details" rows="10" cols="50">
+      At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+      </textarea><br><br>
+      <label>Enter Product Price</label><br>
+      $ <input type="number" name="product_price"><br><br>
+      <label>Enter Course Poster</label><br>
+      <input type="file" name="product_poster" required><br><br>
+      <input id="button" type="submit" value="Add Product">
+    </form>
+
+{% endblock %}

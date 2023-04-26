@@ -1,0 +1,13 @@
+
+<h1>Users</h1>
+{% for user in users %}
+  <a href="{% url 'profile' user.username %}">{{user.username}}</a><br>
+{% endfor %}
+
+<h1>Courses</h1>
+{% for course in courses %}
+  <a href="{% url 'course_details' course.id %}">{{course.course_name}}</a><br>
+{% endfor %}
+
+<h1>Create Course</h1>
+<a href="{% url 'create_course' %}">Create Course</a><br>

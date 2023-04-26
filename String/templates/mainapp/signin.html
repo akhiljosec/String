@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <form name="sign_up_form" method="post" action="" enctype="multipart/form-data" onkeydown="return password_validation()">
+      {% csrf_token %}
+      <br>
+      <label>Enter User Name</label><br>
+      <input type="text" name="username" placeholder="Enter User Name"><br><br>
+      <label>Enter User Password</label><br>
+      <input type="password" name="password" placeholder="Enter Password" required><br><br>
+      <input type="submit" value="Sign In">
+    </form>
+    <h1 id="pwd"></h1>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section>
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10">
+            <div class="card text-dark">
+              <div class="card-body p-4" style="border-style:solid; border-color:#a9b3c9; padding:10px; border-radius:5px;">
+                {% if user.is_authenticated %}
+                <div id="write_post">
+                    <form name="post_form" method="post" action="" enctype="multipart/form-data" style="display:none;">
+                        {% csrf_token %}
+                        <textarea id="post_heading" name="post_heading" rows="2" cols="50" placeholder="Write your Post Heading"></textarea><br>
+                        <textarea id="post" name="post" rows="7" cols="80" placeholder="Write your Post"></textarea><br>
+                        <label>Select Subject</label><br>
+                        <select name="subject" class="form-select" aria-label="Default select example">
+                          {% for subject in subjects %}
+                          <option value="{{subject}}" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">{{subject}}</h3></option>
+                          {% endfor %}
+                        </select><br>
+                        <input name="post_submit_button" class="btn-sm btn-dark" type="submit" value="Post">
+                    </form><br>
+                </div>
+                <h2 class="mb-0">Posts</h2><br>
+                    <h6 class="mb-0">Write your own Post</h6><br>
+                <button type="button" class="btn btn-light" onclick="show_post_writer()" style="font-size:12px;">Show Post Writer</button>
+                <button type="button" class="btn btn-dark" onclick="hide_post_writer()" style="font-size:12px;">Hide Post Writer</button>
+                <p class="fw-light mb-4 pb-2"></p>
+                {% endif %}
+
+            {% for post in posts %}
+                <h3>{{post.post_heading}}</h3><br>
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="{{post.user.profile.profile_pic.url}}" alt="avatar" width="50"
+                    height="50" />
+                  <div>
+                    <h5 class="fw-bold mb-1">{{post.user}}</h5>
+                    <small class="fw-bold mb-1">{{post.subject}}</small>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0" style="font-size:10px;">
+                        {{post.created_at}}
+<!--                        <span class="badge bg-primary">Pending</span>-->
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                    </div>
+                    <p class="mb-0">{{post.post}}</p><br>
+                    <a class="btn-sm btn-outline-dark">{{post.likes}} Liked</a>
+                    <a class="btn-sm btn-dark" href="{% url 'post_room' post.id %}" role="button">Enter Post Room</a><br><br>
+                    {% if user.is_authenticated and post.id not in liked_posts %}
+                    <form name="like_form" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input name="post" value="{{post.id}}" hidden readonly>
+                        <input name="like_submit_button" class="btn btn-outline-primary" type="submit" value="Like">
+                    </form><br>
+                    {% elif user.is_authenticated %}
+                    <form name="unlike_form" method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input name="post" value="{{post.id}}" hidden readonly>
+                        <input name="unlike_submit_button" class="btn btn-outline-danger" type="submit" value="Dislike">
+                    </form><br>
+                    {% endif %}
+                  </div>
+                </div>
+                <hr>
+
+
+            {% endfor %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+{% endblock %}
+

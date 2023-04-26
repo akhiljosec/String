@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for instructor in instructors %}
+    <form name="add_instructors" method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label>Do you want to add {{instructor.username}} to Course {{course.course_name}}</label><br><br>
+      <label>{{instructor.username}}</label>
+      <input type="checkbox" name="instructor" value="{{instructor.id}}"><br><br>
+      <input type="submit" value="Add Instructor">
+    </form>
+{% endfor %}
+
+{% endblock %}
+

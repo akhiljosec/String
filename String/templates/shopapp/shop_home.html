@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Store</h1>
+
+{% for key, value in products_sort.items %}
+<hr>
+<h5>{{ key }}</h5>
+<div class="row">
+    {% for v in value %}
+    <div class="card" style="width: 18rem;margin: 20px 20px;background-color: #a3a0a0;">
+      <h1></h1>
+      <h6 class="card-text"><small><i>{{v.product_type}} sold by {{v.product_seller.username}}</i></small></h6>
+      <img class="card-img-top" src="{{ v.product_poster.url }}" alt="Card image cap" width="200" height="150">
+      <div class="card-body">
+        <h5 class="card-title">{{v.product_name}}</h5>
+        <a href="{% url 'product_details' v.id %}" class="btn btn-light">Product Details</a>
+      </div>
+    </div>
+    {% endfor %}<br>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,78 @@
+<section>
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10">
+            <div class="card text-dark">
+              <div class="card-body p-4">
+                <h4 class="mb-0">Discussion Threads</h4>
+                    <form name="comment_form" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="text" name="reply" value="" readonly hidden>
+                      <textarea id="comment" name="comment" rows="5" cols="75" placeholder="Add your Discussion"></textarea><br>
+                      <input class="btn-sm btn-dark" type="submit" value="Add a Discussion">
+                    </form><br><br>
+                <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+
+
+            {% for comment, reply in comment_reply %}
+
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="{{comment.user.profile.profile_pic.url}}" alt="avatar" width="60"
+                    height="60" />
+                  <div>
+                    <h6 class="fw-bold mb-1">{{comment.user}}</h6>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0" style="font-size:10px;">
+                        {{comment.created_at}}
+<!--                        <span class="badge bg-primary">Pending</span>-->
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                    </div>
+                    <p class="mb-0">{{comment.comment}}</p><br>
+<!--                    <a class="btn-sm btn-dark" href="#" role="button">Discuss</a><br><br>-->
+
+                    {% for repl in reply %}
+
+                    <div class="d-flex flex-start">
+                    <img class="rounded-circle shadow-1-strong me-3"
+                      src="{{repl.user.profile.profile_pic.url}}" alt="avatar" width="60"
+                      height="60" />
+                    <div>
+                      <h6 class="fw-bold mb-1">{{repl.user}}</h6>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="mb-0" style="font-size:10px;">
+                          {{repl.created_at}}
+  <!--                        <span class="badge bg-primary">Pending</span>-->
+                        </p>
+                        <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                        <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                        <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                      </div>
+                      <p class="mb-0">{{repl.reply}}</p><br>
+
+                    <form name="comment_form" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="text" name="comment" value="_/\_" readonly hidden>
+                      <input type="number" name="parent_comment" value="{{comment.id}}" readonly hidden>
+                      <input class="btn-sm btn-dark" type="submit" value="Add to Discussion">
+                      <textarea id="reply" name="reply" rows="5" cols="75" placeholder="Add to Discussion"></textarea><br>
+                    </form><br><br>
+
+                    {% endfor %}
+                  </div>
+                </div>
+                <hr>
+
+
+            {% endfor %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

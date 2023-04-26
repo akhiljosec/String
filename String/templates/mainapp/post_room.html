@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+          <div style="margin:20px;">
+            <h3>{{post.post_heading}}</h3><br>
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="{{post.user.profile.profile_pic.url}}" alt="avatar" width="50"
+                    height="50" />
+                  <div>
+                    <h5 class="fw-bold mb-1">{{post.user}}</h5>
+                    <small class="fw-bold mb-1">{{post.subject}}</small>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0" style="font-size:10px;">
+                        {{post.created_at}}
+<!--                        <span class="badge bg-primary">Pending</span>-->
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                    </div>
+                    <p id="post_id" class="mb-0">{{post.post}}</p><br>
+                  </div>
+                </div>
+                <hr>
+          </div>
+
+    <section>
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10">
+            <div class="card text-dark">
+              <div class="card-body p-4">
+                <h4 class="mb-0">Discussion Threads</h4>
+                    {% if user.is_authenticated %}
+                    <form name="comment_form" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <textarea id="comment" name="comment" rows="5" cols="75" placeholder="Add your Discussion"></textarea><br>
+                      <input class="btn-sm btn-dark" type="submit" value="Add a Discussion">
+                    </form><br><br>
+                    {% endif %}
+                <p class="fw-light mb-4 pb-2">Latest Comments by users</p>
+            
+            {% for comment in comments %}
+
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="{{comment.user.profile.profile_pic.url}}" alt="avatar" width="60"
+                    height="60" />
+                  <div>
+                    <h6 class="fw-bold mb-1">{{comment.user}}</h6>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0" style="font-size:10px;">
+                        {{comment.created_at}}
+<!--                        <span class="badge bg-primary">Pending</span>-->
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                    </div>
+                    <p class="mb-0">{{comment.comment}}</p><br>
+                    <a class="btn-sm btn-dark" href="{% url 'discussion_room' comment.id %}" role="button">Discuss</a><br><br>
+
+
+
+                  </div>
+                </div>
+                <hr>
+
+
+            {% endfor %}
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
+

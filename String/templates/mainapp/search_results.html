@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+{% for course in courses %}
+<div class="card" style="width: 18rem; margin: 50px;">
+  <a href="{% url 'course_details' course.id %}" class="btn btn-outline-secondary" style="margin:10px;">{{course.course_name}}</a>
+  <img class="card-img-top img-fluid" src="{{ course.course_poster.url }}" alt="Card image cap">
+</div>
+{% endfor %}
+
+{% for instructor in instructors %}
+<div class="card" style="width: 18rem; margin: 50px;">
+  <a href="{% url 'profile' instructor.username %}" class="btn btn-outline-secondary" style="margin:10px;">{{instructor.username}}</a>
+  <img class="card-img-top img-fluid" src="{{ instructor.profile.profile_pic.url }}" alt="Card image cap">
+  <h5>{{instructor.profile.user_type}}</h5>
+</div>
+{% endfor %}
+
+
+</div>
+
+
+{% endblock %}

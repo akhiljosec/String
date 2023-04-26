@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form name="unfriend_form" method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label>Are you sure you want to unfriend {{friend}}, Confirm It.</label><br><br>
+      <input type="radio" id="yes" name="unfriend" value="yes">
+      <label for="yes">Yes</label><br>
+      <input type="radio" id="no" name="unfriend" value="no" checked>
+      <label for="no">No</label><br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+a:link {
+    text-decoration: none;
+    color: #696b6a;
+}
+
+
+hr {
+    border: 1px solid #7d7d7c;
+}
+
+
+body {
+    background-color: #dee7fa;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+     <!--     background-image : url("/static/images/bgd.jpg");-->
+}
+

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form name="accept_friend_request" method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label>Are you sure you want to accept Friend Request from {{requested_username}}, Confirm It.</label><br><br>
+      <input type="radio" id="yes" name="accept_request" value="yes">
+      <label for="yes">Yes</label><br>
+      <input type="radio" id="no" name="accept_request" value="no" checked>
+      <label for="no">No</label><br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

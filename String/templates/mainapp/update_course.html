@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form name="update_course" method="post" action="{% url 'home' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <br>
+      <label>Update Course Name</label><br>
+      <input type="text" name="course_name" value="{{course.course_name}}"><br><br>
+      <label>Update Course Details</label><br>
+      <textarea id="course_details" name="course_details" rows="10" cols="50">{{course.course_details}}</textarea><br><br>
+      <label>Update Course Poster</label><br>
+      <input type="file" name="course_poster" value="{{course.course_poster}}" required><br><br>
+      <label>Enter Course Video Links in the order you want to display</label><br>
+      {% for link in video_links %}
+      <label>Video Link{{forloop.counter}}</label><br>
+      <textarea id="video{{forloop.counter}}" name="video{{forloop.counter}}" rows="1" cols="50">https://www.youtube.com/watch?v={{link}}</textarea><br><br>
+      {% endfor %}
+      <input type="text" id="link_count" name="link_count" value="{{link_count}}" size="1" readonly><br><br>
+      <label>Now you have {{link_count}} video(s) in this Course</label><br><br>
+      <label>Add more Video Content ? </label><br>
+      <input type="number" id="video_count" name="video_count" onfocusout="update_video_fields()"><br><br>
+      <div id="video_field"></div><br><br>
+      <input id="button" type="submit" value="Update Course">
+    </form>
+    <h1 id="disp"></h1>
+
+{% endblock %}
+

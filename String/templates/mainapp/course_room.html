@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated and user.profile.user_type == 'instructor' %}
+<div style="margin:20px;">
+<form name="instruction_form" method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <textarea id="instruction" name="instruction" rows="5" cols="75" placeholder="Add Instruction"></textarea><br>
+    <input class="btn btn-outline-danger" type="submit" value="Add Instruction">
+</form><br><br>
+</div>
+{% endif %}
+
+
+<div style="margin:20px;">
+    <h3>Instructor Guidances</h3><br>
+    {% for instruction in instructions %}
+                    <div class="d-flex flex-start">
+                      <img class="rounded-circle shadow-1-strong me-3"
+                        src="{{instruction.instructor.profile.profile_pic.url}}" alt="avatar" width="35"
+                        height="35" />
+                      <div>
+                        <h6 class="fw-bold mb-1">{{instruction.instruction}}</h6>
+                        <div class="d-flex align-items-center mb-3">
+                          <p class="mb-0" style="font-size:10px;">
+                            {{instruction.created_at}}
+    <!--                        <span class="badge bg-primary">Pending</span>-->
+                          </p>
+                          <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                          <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                        </div>
+                        <p class="mb-0"></p><br>
+
+                      </div>
+                    </div>
+                    <hr>
+    {% endfor %}
+</div>
+<br>
+
+
+<div style="background-color:#bdbcbb; padding:10px; margin:20px; border-style:outset;">
+<div>
+<h6>Course Instructor</h6>
+<img src="{{ course_room.instructor.user.profile.profile_pic.url }}" alt="{{ course_room.instructor.user.username }}_pic" class="img-thumbnail" style="width:35px;height:35px;border-radius:15px;"><a href="{% url 'profile' course_room.instructor.user.username %}">{{course_room.instructor.user.username}}</a><br><br>
+<h6>Students</h6>
+{% for student in users_in_course %}
+<!--                <h5 class="font-italic mb-1"><a href="{% url 'profile' course_room.instructor.user.username %}">{{course_room.instructor.user.username}}</a></h5>-->
+<img src="{{ student.profile.profile_pic.url }}" alt="{{ student.username }}_pic" class="img-thumbnail" style="width:35px;height:35px;border-radius:15px;"><a href="{% url 'profile' student.username %}">{{student.username}}</a>
+{% endfor %}
+</div>
+</div>
+
+<a href="{% url 'course_room_discuss' course_room.id %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Discuss</a>
+
+
+<div class="container p-4">
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+              {% if contents.has_previous %}
+                  <a href="?page=1" class="btn btn-outline-dark">&laquo; first</a>
+                  <a href="?page={{ contents.previous_page_number }}" class="btn btn-outline-dark">previous</a>
+              {% else %}
+                  <a class="btn btn-outline-dark">first</a>
+              {% endif %}
+
+                <span class="current">
+                    <a class="btn btn-outline-dark">Page {{ contents.number }} of {{ contents.paginator.num_pages }}</a>
+                </span>
+
+              {% if contents.has_next %}
+                  <a href="?page={{ contents.next_page_number }}" class="btn btn-outline-dark">next</a>
+                  <a href="?page={{ contents.paginator.num_pages }}" class="btn btn-outline-dark">last &raquo;</a>
+              {% else %}
+                  <a class="btn btn-outline-dark">last</a>
+              {% endif %}
+            </span>
+        </div>
+</div>
+
+
+<div style="margin:10px; float:left;">
+
+{% for content in contents %}
+    <div style="float:left;">
+<!--    <iframe width="420" height="315" src="https://www.youtube.com/embed/{{content.video}}"></iframe><br>-->
+        <div style="background-color:black;width:500px;height:300px;margin:10px;float:block;"></div>
+    </div>
+
+    <div style="float:left;">
+    {{content.description}}
+    </div>
+{% endfor %}
+
+</div>
+
+
+{% endblock %}

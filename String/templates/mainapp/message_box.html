@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Your Message Boxes</h3>
+{% for room, user in message_rooms %}
+    <a href="{% url 'message' room.room_name %}" class="btn-sm btn-outline-primary" role="button" aria-pressed="true">{{user.username}}</a>&nbsp;
+{% endfor %}
+
+{% endblock %}

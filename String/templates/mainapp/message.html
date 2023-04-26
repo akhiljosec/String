@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section>
+      <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-10">
+            <div class="card text-dark" style="border-style:solid; border-color:#a9b3c9; padding:10px; border-radius:5px;">
+              <div class="card-body p-4">
+                <h4 class="mb-0" style="text-transform:capitalize;">Message Room [{{message_room.user1}} and {{message_room.user2}}]</h4>
+
+                <p class="fw-light mb-4 pb-2"></p>
+
+            {% for message in room_messages %}
+
+                <div class="d-flex flex-start">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="{{message.user.profile.profile_pic.url}}" alt="avatar" width="60"
+                    height="60" />
+                  <div>
+                    <h6 class="fw-bold mb-1">{{message.user}}</h6>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0" style="font-size:10px;">
+                        {{message.created_at}}
+<!--                        <span class="badge bg-primary">Pending</span>-->
+                      </p>
+                      <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                      <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                    </div>
+                    <p class="mb-0">{{message.message}}</p><br>
+                  </div>
+                </div>
+                <hr>
+
+
+            {% endfor %}
+
+              </div>
+                    <form name="comment_form" method="post" action="" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea id="message" name="message" rows="3" cols="83" placeholder="Type your Message"></textarea><br><br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn-sm btn-dark" type="submit" value="Send">
+                    </form><br><br>
+                    <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

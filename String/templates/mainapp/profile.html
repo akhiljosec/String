@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="vh-100" style="background-color: #dee7fa;">
+
+  <div class="container py-5 h-100" style="background-color: #dee7fa;">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6 mb-4 mb-lg-0">
+        <div class="card mb-3" style="border-radius: .5rem;">
+          <div class="row g-0" style="border-style:solid; border-color:#a9b3c9; padding:10px; border-radius:10px;">
+            {% if user.is_authenticated and user_is_follower %}
+            <form name="unfollow_form" method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input name="profile" value="{{pinfo.profile}}" hidden readonly>
+              <input name="unfollow_submit_button" class="btn btn-outline-danger" type="submit" value="Unfollow">
+            </form><br>
+            {% elif user.is_authenticated %}
+            <form name="follow_form" method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input name="profile" value="{{pinfo.profile}}" hidden readonly>
+              <input name="follow_submit_button" class="btn btn-outline-primary" type="submit" value="Follow">
+            </form><br>
+            {% endif %}
+            <a class="btn-sm btn-outline-dark" style="text-decoration:none;">{{pinfo.profile.followers}} Followers</a><br>
+            {% if user.is_authenticated and friend.requested != 'yes' %}
+            <a class="btn btn-outline-secondary" href="{% url 'sent_friend_request' pinfo.username %}" role="button">Sent Friend Request</a>
+            {% endif %}
+            {% if user.is_authenticated and friend.received_user == request.user and friend.accepted == 'no' and friend.requested == 'yes' %}
+            <a class="btn btn-outline-secondary" href="{% url 'accept_friend_request' pinfo.username %}" role="button">Accept Friend Request</a>
+            {% endif %}
+            {% if user.is_authenticated and friend.requested_user == request.user and friend.accepted == 'no' and friend.requested == 'yes' %}
+            <a class="btn btn-outline-secondary" href="{% url 'sent_friend_request' pinfo.username %}" role="button">Cancel Friend Request</a>
+            {% endif %}
+            {% if user.is_authenticated and friend.friends == 'yes' %}
+            <a class="btn btn-outline-secondary" href="{% url 'unfriend' pinfo.username %}" role="button">Unfriend</a>
+            {% endif %}
+            <div class="col-md-4 gradient-custom text-center text-white"
+              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <img src="{{pinfo.profile.profile_pic.url}}"
+                alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+              <h5>Marie Horwitz</h5>
+              <p>Web Designer</p>
+              <i class="far fa-edit mb-5"></i>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-4">
+                <h6>Information</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Email</h6>
+                    <p class="text-muted">{{pinfo.email}}</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Phone</h6>
+                    <p class="text-muted">{{pinfo.profile.phone}}</p>
+                  </div>
+                </div>
+                <h6>Projects</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>User_Mode</h6>
+                    <p class="text-muted">{{pinfo.profile.user_type}}</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Most Viewed</h6>
+                    <p class="text-muted">Dolor sit amet</p>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-start">
+                  <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+                  <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
+                  <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+              </div>
+            </div>
+            {% if user.is_authenticated %}
+            <a class="btn btn-outline-primary" href="{% url 'message' message_room_name %}" role="button">Message</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h3>Your Friends Requests</h3>
+
+<div class="row">
+    {% for f_request in f_requests %}
+    <div class="card" style="width: 18rem;margin: 20px 20px;background-color: #a3a0a0;">
+      <h1></h1>
+      <img class="card-img-top" src="{{ f_request.requested_user.profile.profile_pic.url }}" alt="Card image cap" width="150" height="150">
+      <div class="card-body">
+        <a href="{% url 'profile' f_request.requested_user.username %}" class="btn btn-light">{{f_request.requested_user.username}}</a>
+      </div>
+    </div>
+    {% endfor %}<br>
+</div>
+
+
+<!--    <form name="friend_request_confirm_form" method="post" action="" enctype="multipart/form-data">-->
+<!--      {% csrf_token %}-->
+<!--      <label>Are you sure you want to sent a Friend Request to {{receiver_username}}, Confirm It.</label><br><br>-->
+<!--      <input type="radio" id="yes" name="sent_request" value="yes">-->
+<!--      <label for="yes">Yes</label><br>-->
+<!--      <input type="radio" id="no" name="sent_request" value="no" checked>-->
+<!--      <label for="no">No</label><br><br>-->
+<!--      <input type="submit" value="Submit">-->
+<!--    </form>-->
+
+
+{% endblock %}

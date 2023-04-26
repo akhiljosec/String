@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{product.product_name}}</h1><br>
+<h6>Sold by {{product.product_seller}}</h6>
+
+<section style="background-color: #dee7fa;">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6 col-xl-4">
+        <div class="card text-black">
+          <i class="fab fa-apple fa-lg pt-3 pb-1 px-3"></i>
+          <img src="{{ product.product_poster.url }}"
+            class="card-img-top" alt="{{ product.product_name }}" />
+          <div class="card-body">
+            <div class="text-center">
+              <h5 class="card-title">{{ product.product_name }}</h5>
+              <p class="text-muted mb-4">{{ product.product_subject }} {{ product.product_type }}</p>
+            </div>
+            <div>
+              <div class="d-flex justify-content-between">
+                <span>Product Subject</span><span>{{ product.product_subject }}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Product Name</span><span>{{ product.product_name }}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Product Type</span><span>{{ product.product_type }}</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between total font-weight-bold mt-4">
+              <span>Price</span><span>$ {{ product.product_price }}</span>
+            </div>
+          </div>
+          <form name="add_to_cart_form" method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+<!--              <input name="p_id" type="number" value="{{product.id}}" readonly hidden>-->
+              <input type="number" id="product_quantity" name="product_quantity" min="1" required>
+              <input name="add_to_cart_button" class="btn btn-success" type="submit" value="Add to Cart">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

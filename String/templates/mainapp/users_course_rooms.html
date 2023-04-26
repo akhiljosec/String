@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Your Course Rooms</h3>
+{% if user.profile.user_type == 'student' %}
+{% for enrollment in enrollments %}
+    <a href="{% url 'course_room' enrollment.course_room.id %}" class="btn-sm btn-outline-success" role="button" aria-pressed="true">{{enrollment.course_room.course.course_name}}</a><br><br>
+{% endfor %}
+{% endif %}
+
+
+{% if user.profile.user_type == 'instructor' %}
+{% for course_room in course_rooms %}
+    <a href="{% url 'course_room' course_room.id %}" class="btn-sm btn-outline-success" role="button" aria-pressed="true">{{course_room.course.course_name}} - Course Room {{course_room.course_room_count}}</a><br><br>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

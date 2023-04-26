@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form name="create_course" method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <br>
+      <label>Select Course Type</label><br>
+      <select name="course_type" class="form-select" aria-label="Default select example">
+          <option value="" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">not selected</h3></option>
+          {% for subject in subjects %}
+          <option value="{{subject}}" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">{{subject}}</h3></option>
+          {% endfor %}
+      </select><br>
+      <label>Enter Course Name</label><br>
+      <input type="text" name="course_name"><br><br>
+      <label>Enter Course Details</label><br>
+      <textarea id="course_details" name="course_details" rows="10" cols="50">
+      At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+      </textarea><br><br>
+      <label>Enter Course Poster</label><br>
+      <input type="file" name="course_poster" required><br><br>
+      <label>Enter Course Page Contents in the order you want to display</label><br>
+      <div id="page_field"></div>
+      <label>Enter Page Count</label><br>
+      <input type="number" id="page_count" name="page_count" onfocusout="create_page_fields()"><br><br>
+<!--      <label>Enter Course Video Links in the order you want to display</label><br>-->
+<!--      <div id="video_field"></div>-->
+<!--      <label>Enter Video Count</label><br>-->
+<!--      <input type="number" id="video_count" name="video_count" onfocusout="create_video_fields()"><br><br>-->
+      <input id="button" type="submit" value="Add Course">
+    </form>
+
+{% endblock %}
+

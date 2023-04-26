@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% for k in messages %}
+<div class="alert alert-danger" role="alert">
+  {{k}}
+</div>
+{% endfor %}
+    <form name="sign_up_form" method="post" action="" enctype="multipart/form-data" onsubmit="return password_validation()">
+      {% csrf_token %}
+      <br>
+      <label>Select User Type</label><br>
+      <select name="user_type" class="form-select" aria-label="Default select example" onfocusout="subject_selector()">
+          <option selected value> -- select an option -- </option>
+          <option value="student">Student</option>
+          <option value="instructor">Instructor</option>
+          <option value="creator">Creator</option>
+      </select><br>
+      <label>Select Subject</label><br>
+      <select name="subject" id="subject" class="form-select" aria-label="Default select example" disabled>
+          <option value="" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">not selected</h3></option>
+          {% for subject in subjects %}
+          <option value="{{subject}}" style="text-transform: capitalize;"><h3 style="text-transform: capitalize;">{{subject}}</h3></option>
+          {% endfor %}
+      </select><br>
+      <label>Enter Email ID</label><br>
+      <input type="email" name="email" placeholder="Enter Email ID" required><br><br>
+      <label>Enter User Name</label><br>
+      <input type="text" name="username" placeholder="Enter User Name" required><br><br>
+      <label>Enter your Phone Number</label><br>
+      <input type="text" name="pnum" placeholder="ex : 9797979797" min="10" max="10" required><br><br>
+      <label>Enter your Profile Pic</label><br>
+      <input type="file" name="pro_pic" required><br><br>
+      <label>Enter your Password</label><br>
+      <input type="password" name="password" placeholder="Enter Password" required><br><br>
+      <label>Confirm your Password</label><br>
+      <input type="password" name="confirm_password" placeholder="Confirm your Password" onfocusout="password_validation()"><br><br>
+      <input id="button" type="submit" value="Sign Up" disabled>
+    </form>
+    <h3 id="pwd"></h3><br>
+    <h3 id="pnum"></h3><br>
+{% endblock %}
+
+
